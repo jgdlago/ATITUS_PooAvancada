@@ -2,6 +2,8 @@ package br.edu.atitus.pooavancado.CadUsuario.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,6 +17,10 @@ public class Usuario extends GenericEntity {
 	
 	@Column(nullable = false)
 	private boolean status;
+	
+	@ManyToOne
+	@JoinColumn(name = "iddepartamento", nullable = false)
+	private Departamento departamento;
 
 	public boolean getStatus() {
 		return status;
@@ -22,6 +28,22 @@ public class Usuario extends GenericEntity {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
 	}
 	
 }

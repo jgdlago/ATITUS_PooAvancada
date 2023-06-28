@@ -8,11 +8,9 @@ import org.springframework.data.domain.Pageable;
 import br.edu.atitus.pooavancado.CadUsuario.entities.GenericEntity;
 import br.edu.atitus.pooavancado.CadUsuario.repositories.GenericRepository;
 
-public interface GenericService<
-	TEntidade extends GenericEntity,
-	TRepository extends GenericRepository<TEntidade>> {
+public interface GenericService<TEntidade extends GenericEntity> {
 
-	TRepository getRepository();
+	GenericRepository<TEntidade> getRepository();
 	
 	default TEntidade save(TEntidade entidade) throws Exception {
 		if (this.getRepository().existsByNomeAndIdNot(entidade.getNome(), entidade.getId())) {
