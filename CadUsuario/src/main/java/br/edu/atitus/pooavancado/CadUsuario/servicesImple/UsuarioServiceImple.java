@@ -1,7 +1,10 @@
 package br.edu.atitus.pooavancado.CadUsuario.servicesImple;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.edu.atitus.pooavancado.CadUsuario.entities.Usuario;
 import br.edu.atitus.pooavancado.CadUsuario.repositories.UsuarioRepository;
 import br.edu.atitus.pooavancado.CadUsuario.services.UsuarioService;
 
@@ -25,6 +28,13 @@ public class UsuarioServiceImple implements UsuarioService{
 			throw new Exception("Não existe registro com este id");
 		}
 		this.usuarioRepository.alteraStatus(id);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		Usuario usuario = this.usuarioRepository.findByEmail(email)
+			.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+		return usuario;
 	}
 
 }
