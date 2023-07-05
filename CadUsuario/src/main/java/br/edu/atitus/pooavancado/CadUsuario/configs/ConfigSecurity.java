@@ -29,6 +29,8 @@ public class ConfigSecurity {
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(auth -> auth
 					.requestMatchers("/auth/**").permitAll()
+//					.requestMatchers("/departamentos/**").hasAnyRole("USER", "ADMIN")
+//					.requestMatchers("/usuarios/**").hasRole("ADMIN")
 					.anyRequest().authenticated())
 			.addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class);
 		

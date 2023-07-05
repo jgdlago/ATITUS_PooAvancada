@@ -1,6 +1,7 @@
 package br.edu.atitus.pooavancado.CadUsuario.entities;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -28,6 +31,20 @@ public class Usuario extends GenericEntity implements UserDetails{
 	private Departamento departamento;
 	
 	private String senha;
+	
+	@ManyToMany
+	@JoinTable(name = "usuario_role", 
+				joinColumns = @JoinColumn(name = "idusuario"),
+				inverseJoinColumns = @JoinColumn(name = "idrole"))
+	private List<Role> roles;
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
 	public boolean getStatus() {
 		return status;
@@ -63,7 +80,7 @@ public class Usuario extends GenericEntity implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		return this.roles;
 	}
 
 	@Override

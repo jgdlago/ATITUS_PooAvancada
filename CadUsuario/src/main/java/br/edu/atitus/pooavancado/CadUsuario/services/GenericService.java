@@ -12,10 +12,14 @@ public interface GenericService<TEntidade extends GenericEntity> {
 
 	GenericRepository<TEntidade> getRepository();
 	
-	default TEntidade save(TEntidade entidade) throws Exception {
+	default void validarSave(TEntidade entidade) throws Exception {
 		if (this.getRepository().existsByNomeAndIdNot(entidade.getNome(), entidade.getId())) {
 			throw new Exception("Já existe registro");
 		}
+	}
+	
+	default TEntidade save(TEntidade entidade) throws Exception {
+		validarSave(entidade);
 		return this.getRepository().save(entidade);
 	}
 	
