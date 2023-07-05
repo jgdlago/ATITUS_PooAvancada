@@ -31,10 +31,15 @@ public class AuthController {
 
 	@PostMapping("*/signin")
 	public ResponseEntity<Object> signin(@RequestBody SigninPayload login) {
-		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		try {
+			Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+			SecurityContextHolder.getContext().setAuthentication(authentication);			
+			
+			String token = jwtUtils.generateTokenFromEmail(login.getEmail());
+			return ResponseEntity.status(HttpStatus.OK).body(token);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+		}
 		
-		String token = jwtUtils.generateTokenFromEmail(login.getEmail());
-		return ResponseEntity.status(HttpStatus.OK).body(token);
 	}
 }
