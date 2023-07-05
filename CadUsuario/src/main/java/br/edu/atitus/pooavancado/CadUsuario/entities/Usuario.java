@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -26,13 +27,14 @@ public class Usuario extends GenericEntity implements UserDetails{
 	@Column(nullable = false)
 	private boolean status;
 	
-	@ManyToOne
-	@JoinColumn(name = "iddepartamento", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "iddepartamento", nullable = true)
 	private Departamento departamento;
 	
+	@Column(nullable = false)
 	private String senha;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "usuario_role", 
 				joinColumns = @JoinColumn(name = "idusuario"),
 				inverseJoinColumns = @JoinColumn(name = "idrole"))
